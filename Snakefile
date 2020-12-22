@@ -12,24 +12,37 @@ from snakemake.utils import R
 
 configfile: "config.yaml"
 
-units = pd.read_table(config["units"], dtype=str).set_index(["bed"], drop=False)
+#units = pd.read_table(config["units"], dtype=str).set_index(["bed"], drop=False)
 
-BED = units.index.get_level_values('bed').unique().tolist()
+#BED = units.index.get_level_values('bed').unique().tolist()
 
 units = pd.read_table(config["sample"], dtype=str).set_index(["sample"], drop=False)
 
 SAMPLES = units.index.get_level_values('sample').unique().tolist()
 
+###############
+# Helper Functions
+###############
+def get_fastq(wildcards):
+    return units.loc[(wildcards.samples), ["fq1", "fq2"]].dropna()
+
+
+##############
+# Wildcards
+##############
+wildcard_constraints:
+    sample = "[A-Za-z0-9]+"
+
+wildcard_constraints:
+    unit = "L[0-9]+"
 ################## DESIRED OUTPUT ##################
 
-MAPPED  = ""
-SORTED  = ""
-
+SORTED    = expand("results/mapped/{samples}/{samples}.sorted.bam", sample=SAMPLES)
+TE_COUNTS =
 ################## RULE ALL ##################
 
 rule all:
     input:
-        MAPPED,
         SORTED
 
     message : "Analysis is complete!"
