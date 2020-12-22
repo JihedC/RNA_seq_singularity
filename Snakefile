@@ -16,7 +16,7 @@ configfile: "config.yaml"
 
 #BED = units.index.get_level_values('bed').unique().tolist()
 
-units = pd.read_table(config["sample"], dtype=str).set_index(["sample"], drop=False)
+units = pd.read_table(config["units"], dtype=str).set_index(["sample"], drop=False)
 
 SAMPLES = units.index.get_level_values('sample').unique().tolist()
 
@@ -37,8 +37,8 @@ wildcard_constraints:
     unit = "L[0-9]+"
 ################## DESIRED OUTPUT ##################
 
-SORTED    = expand("results/mapped/{samples}/{samples}.sorted.bam", sample=SAMPLES)
-TE_COUNTS =
+SORTED    = expand("results/mapped/{samples}/{samples}.sorted.bam", samples=SAMPLES)
+#TE_COUNTS =
 ################## RULE ALL ##################
 
 rule all:
