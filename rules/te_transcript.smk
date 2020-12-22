@@ -16,7 +16,7 @@ rule mapping:
 	conda:
 		"../envs/star.yaml"
 	output:
-
+		"results/mapped/{samples}/{samples}.Aligned.out.bam"
 	shell:
 		"""
 		STAR --readFilesIn {input.fastq} --runMode alignReads {params.STAR} --runThreadN {threads} --genomeDir {params.genome} --outFileNamePrefix {params.prefix}
@@ -24,7 +24,7 @@ rule mapping:
 #"STAR --runMode alignReads {params.STAR} --outFileNamePrefix {params.prefix} --runThreadN {threads} --sjdbGTFfile {input.annotation} --genomeDir {params.genome} --readFilesIn {input.fastq} 2>{log}"
 
 rule sort_bam:
-	input:"results/mapped/{samples}/{samples}.bam"
+	input:"results/mapped/{samples}/{samples}.Aligned.out.bam"
 	output: "results/mapped/{samples}/{samples}.sorted.bam"
 	log:
 		"results/log/sort/{samples}.log"
