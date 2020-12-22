@@ -1,0 +1,16 @@
+---
+units: units.tsv
+sample: samples.tsv
+
+# files and directories
+working_dir: "temp/"
+result_dir: "results/"
+
+
+#Parameters for the rules
+
+
+#STAR
+
+
+#TE_Transcript
