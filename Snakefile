@@ -37,8 +37,8 @@ wildcard_constraints:
     unit = "L[0-9]+"
 ################## DESIRED OUTPUT ##################
 
-SORTED    = expand("results/mapped/{samples}/{samples}.sorted.bam", samples=SAMPLES)
-#TE_COUNTS =
+SORTED      = expand("results/mapped/{samples}/{samples}.sorted.bam", samples=SAMPLES)
+TE_local    = expand("results/te_local/{sample}.cntTable", samples=SAMPLES)
 ################## RULE ALL ##################
 
 rule all:

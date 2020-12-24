@@ -53,13 +53,14 @@ rule download_gtf_repeat:
 	shell:
 		"curl {params.gtfFile} | gunzip -c > {output}"
 
-#rule te_transcript:
-#		input:
-#			bam=""
-#			gtf_gene="annotation/annotation_gene.gtf"
-#			gtf_repeat="annotation/annotation_repeat.gtf"
-#		output:
-#		log:
-#		conda:
-#		shell:
-#		""
+rule te_local:
+		input:
+			sorted		=  	"results/mapped/{samples}/{samples}.sorted.bam"
+			gtf_gene	=	"gencode.vM20.annotation.gtf"
+			gtf_repeat	=	"mm10_rmsk_TE.gtf.locInd"
+		output:
+			"results/te_local/{sample}.cntTable"
+		log:
+			"results/log/te_local/{sample}.log"
+		shell:
+			"TElocal --sortByPos -b {input.sorted} --GTF {input.gtf_gene} --TE {input.gtf_repeat} --project {output}"
