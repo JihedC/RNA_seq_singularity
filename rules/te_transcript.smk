@@ -59,8 +59,8 @@ rule te_local:
 			gtf_gene	=	"gencode.vM20.annotation.gtf"
 			gtf_repeat	=	"mm10_rmsk_TE.gtf.locInd"
 		output:
-			"results/te_local/{sample}.cntTable"
+			"results/te_local/{samples}.cntTable"
 		log:
-			"results/log/te_local/{sample}.log"
+			"results/log/te_local/{samples}.log"
 		shell:
 			"TElocal --sortByPos -b {input.sorted} --GTF {input.gtf_gene} --TE {input.gtf_repeat} --project {output}"

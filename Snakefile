@@ -38,7 +38,7 @@ wildcard_constraints:
 ################## DESIRED OUTPUT ##################
 
 SORTED      = expand("results/mapped/{samples}/{samples}.sorted.bam", samples=SAMPLES)
-TE_local    = expand("results/te_local/{sample}.cntTable", samples=SAMPLES)
+TE_local    = expand("results/te_local/{samples}.cntTable", samples=SAMPLES)
 ################## RULE ALL ##################
 
 rule all:
