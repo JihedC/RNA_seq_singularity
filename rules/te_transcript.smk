@@ -7,7 +7,7 @@ rule mapping:
 		#annotation= "{annotationDir}/annotation.gff".format(annotationDir=config["reference"]["annotation"])
 	params:
 		STAR="--outSAMtype BAM Unsorted --outFilterMultimapNmax 5000 --outSAMmultNmax 1 --outFilterMismatchNmax 3 --outMultimapperOrder Random --winAnchorMultimapNmax 5000 --alignEndsType EndToEnd --alignIntronMax 1 --alignMatesGapMax 350 --seedSearchStartLmax 30 --alignTranscriptsPerReadNmax 30000 --alignWindowsPerReadNmax 30000 --alignTranscriptsPerWindowNmax 300 --seedPerReadNmax 3000 --seedPerWindowNmax 300 --seedNoneLociPerWindow 1000",
-		prefix="results/mapped/{sample}/{sample}",
+		prefix="results/mapped/{samples}/{samples}",
 		genome="/exports/humgen/jihed/TEtranscript/mm10"
 	threads:
 		8
@@ -16,7 +16,7 @@ rule mapping:
 	conda:
 		"../envs/star.yaml"
 	output:
-		"results/mapped/{samples}/{samples}.Aligned.out.bam"
+		"results/mapped/{samples}/{samples}Aligned.out.bam"
 	shell:
 		"""
 		STAR --readFilesIn {input.fastq} --runMode alignReads {params.STAR} --runThreadN {threads} --genomeDir {params.genome} --outFileNamePrefix {params.prefix}
