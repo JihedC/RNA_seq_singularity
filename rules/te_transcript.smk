@@ -24,12 +24,12 @@ rule mapping:
 #"STAR --runMode alignReads {params.STAR} --outFileNamePrefix {params.prefix} --runThreadN {threads} --sjdbGTFfile {input.annotation} --genomeDir {params.genome} --readFilesIn {input.fastq} 2>{log}"
 
 rule sort_bam:
-	input:"results/mapped/{samples}/{samples}.Aligned.out.bam"
+	input:"results/mapped/{samples}/{samples}Aligned.out.bam",
 	output: "results/mapped/{samples}/{samples}.sorted.bam"
 	log:
 		"results/log/sort/{samples}.log"
 	conda:
-		"../conda/samtools.yaml"
+		"../envs/samtools.yaml"
 	shell:
 		"samtools sort -n -o {output} {input}"
 
