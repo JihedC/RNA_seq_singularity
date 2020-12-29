@@ -27,7 +27,7 @@ rule mapping:
 #"STAR --runMode alignReads {params.STAR} --outFileNamePrefix {params.prefix} --runThreadN {threads} --sjdbGTFfile {input.annotation} --genomeDir {params.genome} --readFilesIn {input.fastq} 2>{log}"
 
 rule sort_bam:
-	input:"results/mapped/{samples}/{samples}Aligned.out.bam",
+	input:"results/mapped/{samples}/{samples}Aligned.sortedByCoord.out.bam",
 	output: "results/mapped/{samples}/{samples}.sorted.bam"
 	log:
 		"results/log/sort/{samples}.log"
@@ -58,7 +58,7 @@ rule download_gtf_repeat:
 
 rule deduplicate:
 		input:
-			bam="results/mapped/{samples}/{samples}Aligned.out.bam"
+			bam="results/mapped/{samples}/{samples}Aligned.sortedByCoord.out.bam"
 		output:
 			dedup="results/mapped/{samples}/{samples}.dedup.bam",
 			stats="results/mapped/{samples}/{samples}.dedup.stats"
