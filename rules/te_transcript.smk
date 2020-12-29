@@ -10,7 +10,7 @@ rule mapping:
 		prefix="results/mapped/{samples}/{samples}",
 		genome="/exports/humgen/jihed/TEtranscript/mm10"
 	threads:
-		8
+		32
 	log:
 		"results/log/star/{samples}.log"
 	conda:
@@ -58,7 +58,7 @@ rule download_gtf_repeat:
 
 rule deduplicate:
 		input:
-			"results/mapped/{samples}/{samples}Aligned.out.bam"
+			bam="results/mapped/{samples}/{samples}Aligned.out.bam"
 		output:
 			dedup="results/mapped/{samples}/{samples}.dedup.bam",
 			stats="results/mapped/{samples}/{samples}.dedup.stats"
@@ -67,9 +67,7 @@ rule deduplicate:
 		log:
 			"results/log/deduplicate/deduplicate.log"
 		shell:
-			"""
-			picard MarkDuplicates -I {input} -O {output.dedup} -M {params.info} REMOVE_DUPLICATES=true 2>{log}
-			"""
+			"picard MarkDuplicates -I {input.bam} -O {output.dedup} -M {params.info} REMOVE_DUPLICATES=true 2>{log}"
 #picard MarkDuplicates I=results/mapped/WT1/WT1Aligned.out.bam O=results/mapped/WT1/WT1Aligned.out.bam METRICS_FILE=test.picard.txt REMOVE_DUPLICATES=true
 
 # java -Xmx10g -jar /u/project/jacobsen/resources/scripts_and_pipelines/scripts/MarkDuplicates.jar
