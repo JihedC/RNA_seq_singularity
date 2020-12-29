@@ -87,7 +87,7 @@ rule htseq_count:
 		log:
 			"results/log/htseqcount/results/htseqcount_log.txt"
 		shell:
-			"htseq-count --format=bam {input} {params.gtf_repeat} > {output}
+			"htseq-count --format=bam {input} {params.gtf_repeat} > {output}"
 
 # rule TEtranscripts:
 # 		input:
