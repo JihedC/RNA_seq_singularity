@@ -6,7 +6,7 @@ rule mapping:
 		#indexdone="{indexDirectory}/index.DONE".format(indexDirectory=config["reference"]["index"]),
 		#annotation= "{annotationDir}/annotation.gff".format(annotationDir=config["reference"]["annotation"])
 	params:
-		STAR="--alignEndsType EndToEnd --outFilterType BySJout --outFilterMultimapNmax 1 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.05 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --outReadsUnmapped Fastx --outFilterIntronMotifs RemoveNoncanonical"
+		STAR="--alignEndsType EndToEnd --outFilterType BySJout --outFilterMultimapNmax 1 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.05 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --outReadsUnmapped Fastx --outFilterIntronMotifs RemoveNoncanonical",
 		prefix="results/mapped/{samples}/{samples}",
 		genome="/exports/humgen/jihed/TEtranscript/mm10"
 	threads:
