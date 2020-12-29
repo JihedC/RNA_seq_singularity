@@ -34,7 +34,7 @@ wildcard_constraints:
     sample = "[A-Za-z0-9]+"
 
 wildcard_constraints:
-    unit = "L[0-9]+"
+    unit = "[A-Za-z0-9]+"
 ################## DESIRED OUTPUT ##################
 
 SORTED      = expand("results/mapped/{samples}/{samples}.sorted.bam", samples=SAMPLES)
