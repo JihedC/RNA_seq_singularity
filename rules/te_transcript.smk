@@ -68,9 +68,9 @@ rule deduplicate:
 		log:
 			"results/log/deduplicate/deduplicate.log"
 		shell:
-		"""
-		picard MarkDuplicates I={input} O={params.dir} METRICS_FILE={output.info} REMOVE_DUPLICATES=true
-		"""
+			"""
+			picard MarkDuplicates I={input} O={params.dir} METRICS_FILE={output.info} REMOVE_DUPLICATES=true
+			"""
 #picard MarkDuplicates I=results/mapped/WT1/WT1Aligned.out.bam O=results/mapped/WT1/WT1Aligned.out.bam METRICS_FILE=test.picard.txt REMOVE_DUPLICATES=true
 
 # java -Xmx10g -jar /u/project/jacobsen/resources/scripts_and_pipelines/scripts/MarkDuplicates.jar
