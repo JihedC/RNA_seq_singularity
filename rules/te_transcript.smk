@@ -60,16 +60,15 @@ rule deduplicate:
 		input:
 			"results/mapped/{samples}/{samples}Aligned.out.bam"
 		output:
+			dedup="results/mapped/{samples}/{samples}.dedup.bam",
 			info="results/log/deduplicate/information_deduplicate.log"
-		params:
-			dir="results/mapped/{samples}/{samples}.dedup.bam"
 		conda:
 			"../envs/picard.yaml"
 		log:
 			"results/log/deduplicate/deduplicate.log"
 		shell:
 			"""
-			picard MarkDuplicates I={input} O={params.dir} METRICS_FILE={output.info} REMOVE_DUPLICATES=true
+			picard MarkDuplicates I={input} O={output.dedup} METRICS_FILE={output.info} REMOVE_DUPLICATES=true
 			"""
 #picard MarkDuplicates I=results/mapped/WT1/WT1Aligned.out.bam O=results/mapped/WT1/WT1Aligned.out.bam METRICS_FILE=test.picard.txt REMOVE_DUPLICATES=true
 
