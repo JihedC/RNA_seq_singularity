@@ -16,7 +16,7 @@ rule mapping:
 	conda:
 		"../envs/star.yaml"
 	output:
-		"results/mapped/{samples}/{samples}Aligned.out.bam"
+		"results/mapped/{samples}/{samples}Aligned.sortedByCoord.out.bam"
 	shell:
 		"""
 		STAR --readFilesIn {input.fastq} --runMode alignReads {params.STAR} --runThreadN {threads} --genomeDir {params.genome} --outFileNamePrefix {params.prefix}
