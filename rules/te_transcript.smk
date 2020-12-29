@@ -6,7 +6,7 @@ rule mapping:
 		#indexdone="{indexDirectory}/index.DONE".format(indexDirectory=config["reference"]["index"]),
 		#annotation= "{annotationDir}/annotation.gff".format(annotationDir=config["reference"]["annotation"])
 	params:
-		STAR="--outSAMtype BAM Unsorted --outFilterMultimapNmax 5000 --outSAMmultNmax 1 --outFilterMismatchNmax 3 --outMultimapperOrder Random --winAnchorMultimapNmax 5000 --alignEndsType EndToEnd --alignIntronMax 1 --alignMatesGapMax 350 --seedSearchStartLmax 30 --alignTranscriptsPerReadNmax 30000 --alignWindowsPerReadNmax 30000 --alignTranscriptsPerWindowNmax 300 --seedPerReadNmax 3000 --seedPerWindowNmax 300 --seedNoneLociPerWindow 1000",
+		STAR="--alignEndsType EndToEnd --outFilterType BySJout --outFilterMultimapNmax 1 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.05 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --outReadsUnmapped Fastx --outFilterIntronMotifs RemoveNoncanonical"
 		prefix="results/mapped/{samples}/{samples}",
 		genome="/exports/humgen/jihed/TEtranscript/mm10"
 	threads:
@@ -21,6 +21,9 @@ rule mapping:
 		"""
 		STAR --readFilesIn {input.fastq} --runMode alignReads {params.STAR} --runThreadN {threads} --genomeDir {params.genome} --outFileNamePrefix {params.prefix}
 		"""
+
+#STAR="--outSAMtype BAM Unsorted --outFilterMultimapNmax 5000 --outSAMmultNmax 1 --outFilterMismatchNmax 3 --outMultimapperOrder Random --winAnchorMultimapNmax 5000 --alignEndsType EndToEnd --alignIntronMax 1 --alignMatesGapMax 350 --seedSearchStartLmax 30 --alignTranscriptsPerReadNmax 30000 --alignWindowsPerReadNmax 30000 --alignTranscriptsPerWindowNmax 300 --seedPerReadNmax 3000 --seedPerWindowNmax 300 --seedNoneLociPerWindow 1000",
+
 #"STAR --runMode alignReads {params.STAR} --outFileNamePrefix {params.prefix} --runThreadN {threads} --sjdbGTFfile {input.annotation} --genomeDir {params.genome} --readFilesIn {input.fastq} 2>{log}"
 
 rule sort_bam:
@@ -53,14 +56,47 @@ rule download_gtf_repeat:
 	shell:
 		"curl {params.gtfFile} | gunzip -c > {output}"
 
-rule te_local:
+rule deduplicate:
 		input:
-			sorted		=  	"results/mapped/{samples}/{samples}.sorted.bam"
-			gtf_gene	=	"gencode.vM20.annotation.gtf"
-			gtf_repeat	=	"mm10_rmsk_TE.gtf.locInd"
+			"results/mapped/{samples}/{samples}Aligned.out.bam"
 		output:
-			"results/te_local/{samples}.cntTable"
+			info="results/log/deduplicate/information_deduplicate.log"
+		params:
+			dir="results/mapped/{samples}/{samples}.dedup.bam"
+		conda:
+			"../envs/picard.yaml"
 		log:
-			"results/log/te_local/{samples}.log"
+			"results/log/deduplicate/deduplicate.log"
 		shell:
-			"TElocal --sortByPos -b {input.sorted} --GTF {input.gtf_gene} --TE {input.gtf_repeat} --project {output}"
+		"""
+		picard MarkDuplicates I={input} O={params.dir} METRICS_FILE={output.info} REMOVE_DUPLICATES=true
+		"""
+#picard MarkDuplicates I=results/mapped/WT1/WT1Aligned.out.bam O=results/mapped/WT1/WT1Aligned.out.bam METRICS_FILE=test.picard.txt REMOVE_DUPLICATES=true
+
+# java -Xmx10g -jar /u/project/jacobsen/resources/scripts_and_pipelines/scripts/MarkDuplicates.jar
+# I="$read1" O="$outdir/STAR/${name}_dedup.bam"
+# METRICS_FILE="$outdir/STAR/other_files_and_logs/${name}_MarkDuplicates_metrics.txt"
+# REMOVE_DUPLICATES=true > "$outdir/STAR/other_files_and_logs/${name}_MarkDuplicates_log.txt" 2>&1
+rule htseq_count:
+		input:
+			lambda wildcards: expand("results/mapped/{samples}/{samples}.dedup.bam", samples = SAMPLES)
+		output:
+			"results/counts/htseq_count.txt"
+		params:
+			gtf_repeat	=	"GRCm38_GENCODE_rmsk_TE.gtf"
+		log:
+			"results/log/htseqcount/results/htseqcount_log.txt"
+		shell:
+			"htseq-count --format=bam {input} {params.gtf_repeat} > {output}
+
+# rule TEtranscripts:
+# 		input:
+# 			sorted		=  	"results/mapped/{samples}/{samples}.sorted.bam"
+# 			gtf_gene	=	"gencode.vM20.annotation.gtf"
+# 			gtf_repeat	=	"GRCm38_GENCODE_rmsk_TE.gtf"
+# 		output:
+# 			"results/te_local/{samples}.cntTable"
+# 		log:
+# 			"results/log/te_local/{samples}.log"
+# 		shell:
+# 			"TElocal --sortByPos -b {input.sorted} --GTF {input.gtf_gene} --TE {input.gtf_repeat} --project {output}"

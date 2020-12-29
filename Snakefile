@@ -39,11 +39,13 @@ wildcard_constraints:
 
 SORTED      = expand("results/mapped/{samples}/{samples}.sorted.bam", samples=SAMPLES)
 TE_local    = expand("results/te_local/{samples}.cntTable", samples=SAMPLES)
+HTSEQ       =        "results/counts/htseq_count.txt"
 ################## RULE ALL ##################
 
 rule all:
     input:
-        SORTED
+        SORTED,
+        HTSEQ
 
     message : "Analysis is complete!"
     shell:""
