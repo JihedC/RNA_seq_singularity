@@ -60,4 +60,25 @@ rule map_to_genome_using_STAR:
         --outReadsUnmapped {params.unmapped} \
         --outFileNamePrefix {params.prefix} --outSAMtype {params.outSamType} "
 
-     
+rule sort_bam:
+    input:
+        RESULT_DIR + "star/{sample}_Aligned.out.bam",
+    output: 
+        RESULT_DIR + "sorted/{sample}.sorted.bam"
+    log:
+        RESULT_DIR + "log/sort/{sample}.log"
+    shell:
+        """
+        samtools sort -n -o {output} {input}
+        samtools index {output}
+        """
+
+rule bamcoverage:
+    input:
+        bam     =   RESULT_DIR + "sorted/{sample}.sorted.bam",
+    output:
+        bigwig  =   RESULT_DIR + "bigwig/{sample}_rpkm.bw"
+    message:
+        "Create genome coverage tracks"
+    shell:
+        "bamCoverage -b {input.bam} --binSize 10 --effectiveGenomeSize 2652783500 --normalizeUsing RPKM -o {output.bigwig}"
