@@ -29,10 +29,12 @@ rule map_to_genome_using_STAR:
         reverse_read = WORKING_DIR + "trimmed/" + "{sample}_R2_trimmed.fq.gz",
         gtf =   WORKING_DIR + "annotation.gtf"
     output:
-        RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam",
+        RESULT_DIR + "star/{sample}_Aligned.out.bam",
         RESULT_DIR + "star/{sample}_Log.final.out"
     message:
         "mapping {wildcards.sample} reads to genome"
+    log:
+        RESULT_DIR + "log/star/{sample}.log"
     params:
         sample_name           =  "{sample}",
         star_input_file_names =  get_star_names,
@@ -55,7 +57,7 @@ rule map_to_genome_using_STAR:
         --sjdbOverhang {params.sjdbOverhang} --readFilesIn {params.star_input_file_names} \
         --readFilesCommand zcat --winAnchorMultimapNmax {params.winAnchorMultimapNmax} \
         --outFilterMultimapNmax {params.multimappers} \
-        --runThreadN {threads}  --outReadsUnmapped {params.unmapped} \
+        --outReadsUnmapped {params.unmapped} \
         --outFileNamePrefix {params.prefix} --outSAMtype {params.outSamType} "
 
      

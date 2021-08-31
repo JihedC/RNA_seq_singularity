@@ -22,4 +22,12 @@ rule download_gtf_gene:
 	shell:
 		"curl {params.gtfFile} | gunzip -c > {output}"
 
-
+rule download_TE_gene:
+	output:
+		WORKING_DIR + "TE_repeat_masker.gtf"
+	params:
+		gtfFile=config["REPEAT_GTF_URL"]
+	log:
+		"results/log/download_TE_repeat_masker.log"
+	shell:
+		"curl {params.gtfFile} | gunzip -c > {output}"

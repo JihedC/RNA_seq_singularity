@@ -41,3 +41,7 @@ star:
 
 
 #TE_Transcript
+TEtranscript:
+  format:                 'BAM'     #can be also SAM
+  stranded:               'no'      # choices: "no", "forward"("Second-strand" cDNA library - e.g QIAseq stranded), "reverse" ("First-strand" cDNA library e.g Illumina Truseq)
+  project:                'results/TEtranscript/TEtranscript_out' #name of the output directory

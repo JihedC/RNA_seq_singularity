@@ -2,5 +2,5 @@ sample	fq1	fq2	condition
 RNA1	fastq/SRX3461252_T1_2.fq.gz		control
 RNA2	fastq/SRX3461253_T1_2.fq.gz		control
 RNA3	fastq/SRX3461254_T1_2.fq.gz		control
-RNA4	fastq/SRX3461267_T1_2.fq.gz		control
-RNA5	fastq/SRX3461268_T1_2.fq.gz		control
+RNA4	fastq/SRX3461267_T1_2.fq.gz		treatment
+RNA5	fastq/SRX3461268_T1_2.fq.gz		treatment

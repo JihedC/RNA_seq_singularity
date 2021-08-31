@@ -62,6 +62,16 @@ def get_star_names(wildcards):
     else:
         return WORKING_DIR + "trimmed/" + wildcards.sample + "_R1_trimmed.fq.gz " + WORKING_DIR + "trimmed/" + wildcards.sample + "_R2_trimmed.fq.gz"
 
+
+def get_samples_per_treatment(input_df="units.tsv",colsamples="sample",coltreatment="condition",treatment="control"):
+    """This function returns a list of samples that correspond to the same experimental condition"""
+    df = pd.read_table(input_df)
+    df = df.loc[df[coltreatment] == treatment]
+    filtered_samples = df[colsamples].tolist()
+    return filtered_samples
+
+CASES = get_samples_per_treatment(treatment="treatment")
+CONTROLS = get_samples_per_treatment(treatment="control")
 ################## Wilcards constrains  ##################
 
 wildcard_constraints:
@@ -72,13 +82,15 @@ wildcard_constraints:
 
 ################## DESIRED OUTPUT ##################
 
-STAR        = expand(RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam", sample = SAMPLES)
+STAR            = expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample = SAMPLES)
+TEtranscripts   = RESULT_DIR + "TEtranscript/TEtranscripts_out.cntTable"
 
 ################## RULE ALL ##################
 
 rule all:
     input:
-        STAR
+        STAR,
+        TEtranscripts
 
     message : "Analysis is complete!"
     shell:""
@@ -89,3 +101,4 @@ rule all:
 include: "rules/download.smk"
 include: "rules/qc.smk"
 include: "rules/star.smk"
+include: "rules/tetranscript.smk"
