@@ -38,6 +38,7 @@ star:
   samattributes:          'NH HI AS nM MD'         # SAM attributes (by default only NH HI AS nM). See STAR manual
   sjdbOverhang:           '100'
   winAnchorMultimapNmax:  '200'
+  samtype_sorted:         'BAM SortedByCoordinate'
 
 
 #TE_Transcript
