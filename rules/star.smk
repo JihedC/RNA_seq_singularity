@@ -111,7 +111,8 @@ rule index_bam:
 
 rule bamcoverage:
     input:
-        bam     =   RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam"
+        bam     =   RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam",
+        bai     =   RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam.bai"
     output:
         bigwig  =   RESULT_DIR + "bigwig/{sample}_rpkm.bw"
     message:
