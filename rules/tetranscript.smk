@@ -7,7 +7,7 @@ rule TEtranscripts:
         genic_gtf       =       WORKING_DIR + "annotation.gtf",
         TE_gtf          =       WORKING_DIR + "TE_repeat_masker.gtf"
     output:
-        RESULT_DIR + "TEtranscript/TEtranscripts_out.cntTable"
+        RESULT_DIR + "TEtranscript/TEtranscript_out.cntTable"
     log:
         RESULT_DIR + "log/TEtranscript/tetranscript.log"
     params:

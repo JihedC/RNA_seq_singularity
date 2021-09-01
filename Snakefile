@@ -83,7 +83,7 @@ wildcard_constraints:
 ################## DESIRED OUTPUT ##################
 
 STAR            = expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample = SAMPLES)
-TEtranscripts   = RESULT_DIR + "TEtranscript/TEtranscripts_out.cntTable"
+TEtranscripts   = RESULT_DIR + "TEtranscript/TEtranscript_out.cntTable"
 BIGWIG          = expand(RESULT_DIR + "bigwig/{sample}_rpkm.bw", sample = SAMPLES)
 
 ################## RULE ALL ##################
