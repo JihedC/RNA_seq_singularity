@@ -7,9 +7,11 @@ rule download_genome:
 	output:
 		WORKING_DIR + "reference.fa"
 	log:
-		"results/log/download_genomefile.log"    
+		"results/log/download_genomefile.log"
+	benchmark:
+		RESULT_DIR + "benchmark/download_genome.txt"			    
 	shell:
-		"curl {params.fasta} | gunzip -c > {output}"
+		"curl {params.fasta} | gunzip -c > {output} 2>{log}"
 
 
 rule download_gtf_gene:
@@ -19,8 +21,10 @@ rule download_gtf_gene:
 		gtfFile=config["GENOME_ZIP_GTF_URL"]
 	log:
 		"results/log/download_gene_annotation.log"
+	benchmark:
+		RESULT_DIR + "benchmark/download_gtf_gene.txt"	
 	shell:
-		"curl {params.gtfFile} | gunzip -c > {output}"
+		"curl {params.gtfFile} | gunzip -c > {output} 2>{log}"
 
 rule download_TE_gene:
 	output:
@@ -29,5 +33,7 @@ rule download_TE_gene:
 		gtfFile=config["REPEAT_GTF_URL"]
 	log:
 		"results/log/download_TE_repeat_masker.log"
+	benchmark:
+		RESULT_DIR + "benchmark/download_TE_gene.txt"		
 	shell:
-		"curl {params.gtfFile} | gunzip -c > {output}"
+		"curl {params.gtfFile} | gunzip -c > {output} 2>{log}"

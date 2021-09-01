@@ -35,6 +35,8 @@ rule map_to_genome_using_STAR:
         "mapping {wildcards.sample} reads to genome"
     log:
         RESULT_DIR + "log/star/{sample}.log"
+    benchmark:
+        RESULT_DIR + "benchmark/star_{sample}_unsorted.benchmark.txt"        
     params:
         sample_name           =  "{sample}",
         star_input_file_names =  get_star_names,
@@ -73,6 +75,8 @@ rule map_to_genome_using_STAR_sorted:
         "mapping {wildcards.sample} reads to genome"
     log:
         RESULT_DIR + "log/star/{sample}.log"
+    benchmark:
+        RESULT_DIR + "benchmark/star_{sample}_sorted.benchmark.txt"        
     params:
         sample_name           =  "{sample}",
         star_input_file_names =  get_star_names,
@@ -107,7 +111,7 @@ rule index_bam:
     log:
         RESULT_DIR + "log/sort/{sample}.log"
     shell:
-        "samtools index {output}"
+        "samtools index {output} 2>{log}"
 
 rule bamcoverage:
     input:
@@ -117,5 +121,9 @@ rule bamcoverage:
         bigwig  =   RESULT_DIR + "bigwig/{sample}_rpkm.bw"
     message:
         "Create genome coverage tracks"
+    benchmark:
+        RESULT_DIR + "benchmark/bamcoverage_{sample}.benchmark.txt"        
+    log:
+        RESULT_DIR + "log/bamcoverage/{sample}.log"    
     shell:
-        "bamCoverage -b {input.bam} --binSize 10 --effectiveGenomeSize 2652783500 --normalizeUsing RPKM -o {output.bigwig}"
+        "bamCoverage -b {input.bam} --binSize 10 --effectiveGenomeSize 2652783500 --normalizeUsing RPKM -o {output.bigwig} 2>{log}"
