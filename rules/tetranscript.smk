@@ -20,13 +20,13 @@ rule TEtranscripts:
 
 rule TElocal:
     input:
-        bam		    =  	expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample = SAMPLES),
+        bam		    =  	RESULT_DIR + "star/{sample}_Aligned.out.bam",
         genic_gtf	=	WORKING_DIR + "annotation.gtf",
         TE_gtf	=	WORKING_DIR + "TE_repeat_masker.gtf"
     output:
-        RESULT_DIR + "TElocal/TElocal_out.cntTable"
+        RESULT_DIR + "TElocal/{sample}.cntTable"
     params:
-        project     =   config["TElocal"]["project"],
+        project     =   RESULT_DIR + "TElocal/{sample}.cntTable",
         stranded    =   config["TElocal"]["stranded"],
     shell:
         "TElocal -b {input.bam} --GTF {input.genic_gtf} --TE {input.TE_gtf} --project {params.project} --stranded {params.stranded}"

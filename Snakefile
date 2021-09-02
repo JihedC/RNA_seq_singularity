@@ -85,7 +85,9 @@ wildcard_constraints:
 STAR            = expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample = SAMPLES)
 TEtranscripts   = RESULT_DIR + "TEtranscript/TEtranscript_out.cntTable"
 BIGWIG          = expand(RESULT_DIR + "bigwig/{sample}_rpkm.bw", sample = SAMPLES)
-TElocal         = expand(RESULT_DIR + "TElocal/TElocal_out.cntTable", sample = SAMPLES)
+TElocal         = expand(RESULT_DIR + "TElocal/{sample}.cntTable", sample = SAMPLES)
+HTSEQ           = RESULT_DIR + "htseq/htseq_count_TE.txt"
+FEATURECOUNT    = RESULT_DIR + "featureCounts/featureCounts_TE.txt"
 
 ################## RULE ALL ##################
 
@@ -94,10 +96,12 @@ rule all:
         STAR,
         TEtranscripts,
         BIGWIG,
-        TElocal
+        TElocal,
+        HTSEQ,
+        FEATURECOUNT
 
     message : "Analysis is complete!"
-    shell:""
+    shell:"multiqc --force . --outdir ."
 
 
 ################## INCLUDE RULES ##################
