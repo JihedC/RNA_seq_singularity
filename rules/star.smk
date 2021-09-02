@@ -111,7 +111,7 @@ rule index_bam:
     log:
         RESULT_DIR + "log/sort/{sample}.log"
     shell:
-        "samtools index {output} 2>{log}"
+        "samtools index {input} 2>{log}"
 
 rule bamcoverage:
     input:
