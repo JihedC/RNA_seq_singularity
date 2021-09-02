@@ -85,6 +85,7 @@ wildcard_constraints:
 STAR            = expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample = SAMPLES)
 TEtranscripts   = RESULT_DIR + "TEtranscript/TEtranscript_out.cntTable"
 BIGWIG          = expand(RESULT_DIR + "bigwig/{sample}_rpkm.bw", sample = SAMPLES)
+TElocal         = expand(RESULT_DIR + "TElocal/TElocal_out.cntTable", sample = SAMPLES)
 
 ################## RULE ALL ##################
 
@@ -92,7 +93,8 @@ rule all:
     input:
         STAR,
         TEtranscripts,
-        BIGWIG
+        BIGWIG,
+        TElocal
 
     message : "Analysis is complete!"
     shell:""

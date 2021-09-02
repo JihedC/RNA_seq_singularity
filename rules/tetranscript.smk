@@ -17,3 +17,16 @@ rule TEtranscripts:
     shell:
         "TEtranscripts -t {input.treatment} -c {input.control} --GTF {input.genic_gtf} --TE {input.TE_gtf} --format {params.format} --stranded {params.stranded} --project {params.project}"
 
+
+rule TElocal:
+    input:
+        bam		    =  	expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample = SAMPLES),
+        genic_gtf	=	WORKING_DIR + "annotation.gtf",
+        TE_gtf	=	WORKING_DIR + "TE_repeat_masker.gtf"
+    output:
+        RESULT_DIR + "TElocal/TElocal_out.cntTable"
+    params:
+        project     =   config["TElocal"]["project"],
+        stranded    =   config["TElocal"]["stranded"],
+    shell:
+        "TElocal -b {input.bam} --GTF {input.genic_gtf} --TE {input.TE_gtf} --project {params.project} --stranded {params.stranded}"
