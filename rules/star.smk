@@ -69,7 +69,7 @@ rule map_to_genome_using_STAR_sorted:
         reverse_read = WORKING_DIR + "trimmed/" + "{sample}_R2_trimmed.fq.gz",
         gtf =   WORKING_DIR + "annotation.gtf"
     output:
-        RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam",
+        RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam",
         RESULT_DIR + "star/{sample}_Log.final.out"
     message:
         "mapping {wildcards.sample} reads to genome"
@@ -105,9 +105,9 @@ rule map_to_genome_using_STAR_sorted:
 
 rule index_bam:
     input:
-        RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam",
+        RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam"
     output: 
-        RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam.bai"
+        RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam.bai"
     log:
         RESULT_DIR + "log/sort/{sample}.log"
     shell:
@@ -115,8 +115,8 @@ rule index_bam:
 
 rule bamcoverage:
     input:
-        bam     =   RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam",
-        bai     =   RESULT_DIR + "star/{sample}_Aligned.out.sortedByCoord.bam.bai"
+        bam     =   RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam",
+        bai     =   RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam.bai"
     output:
         bigwig  =   RESULT_DIR + "bigwig/{sample}_rpkm.bw"
     message:
