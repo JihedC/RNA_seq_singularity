@@ -8,12 +8,47 @@ result_dir: "results/"
 
 
 #Parameters for the rules
-
+GENOME_ZIP_FASTA_URL: ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M20/GRCm38.primary_assembly.genome.fa.gz
 GENOME_ZIP_GTF_URL: ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M20/gencode.vM20.annotation.gtf.gz
 #ENCODE repeat_masker
 REPEAT_GTF_URL: http://labshare.cshl.edu/shares/mhammelllab/www-data/TEtranscripts/TE_GTF/GRCm38_Ensembl_rmsk_TE.gtf.gz
 
-#STAR
+#FASTP
+
+# read quality trimming
+fastp:
+  qualified_quality_phred: 30 # Phred+33 score (> 15 for Proton Ion, > 30 or more for Illumina) 
+
+
+# STAR 
+# genome index step
+star_index:
+  sjdbOverhang: 100                     # as recommended in STAR manual https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf
+
+                          
+# alignment step
+star:
+  samtype:                'BAM Unsorted' # type of output
+  mismatches:             '2'                      # alignment will be output only if it has less mismatches than this number
+  unmapped:               'None'                   # 'None' or 'Fastx' (to output fastq files of unmapped reads)
+  multimappers:           '100'                    # N number of loci the read is allowed to map to
+  matchminoverlengthread: '0.66'                   # alignment will be output if percentage of read length is higher than this value (66% of 2x100bp = 132 nucleotides) 
+  intronmax:              '25000'                  # max intron in tomato genome is 22,729
+  matesgap:               '20000'                  # max length between mates 
+  samattributes:          'NH HI AS nM MD'         # SAM attributes (by default only NH HI AS nM). See STAR manual
+  sjdbOverhang:           '100'
+  winAnchorMultimapNmax:  '200'
+  samtype_sorted:         'BAM SortedByCoordinate'
 
 
 #TE_Transcript
+TEtranscript:
+  format:                 'BAM'     #can be also SAM
+  stranded:               'reverse'      # choices: "no", "forward"("Second-strand" cDNA library - e.g QIAseq stranded), "reverse" ("First-strand" cDNA library e.g Illumina Truseq)
+  project:                'results/TEtranscript/TEtranscript_out' #name of the output directory
+
+#TE_local
+
+TElocal:
+    project:              'results/TElocal/TElocal_out'
+    stranded:             'reverse'
