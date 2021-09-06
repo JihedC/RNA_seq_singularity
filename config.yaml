@@ -41,6 +41,12 @@ star:
   winAnchorMultimapNmax:  '200'
   samtype_sorted:         'BAM SortedByCoordinate'
 
+#BAMCOVERAGE
+
+bamcoverage:
+  binsize:                '10'
+  normalizeUsing:         'RPKM'
+  effectiveGenomeSize:    '2652783500'            #https://deeptools.readthedocs.io/en/latest/content/feature/effectiveGenomeSize.html
 
 #TE_Transcript
 TEtranscript:

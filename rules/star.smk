@@ -122,8 +122,12 @@ rule bamcoverage:
     message:
         "Create genome coverage tracks"
     benchmark:
-        RESULT_DIR + "benchmark/bamcoverage_{sample}.benchmark.txt"        
+        RESULT_DIR + "benchmark/bamcoverage_{sample}.benchmark.txt"
+    params:
+         binsize                =   config["bamcoverage"]["binsize"],
+         normalizeUsing         =   config["bamcoverage"]["normalizeUsing"],
+         effectiveGenomeSize    =   config["bamcoverage"]["effectiveGenomeSize"]       
     log:
         RESULT_DIR + "log/bamcoverage/{sample}.log"    
     shell:
-        "bamCoverage -b {input.bam} --binSize 10 --effectiveGenomeSize 2652783500 --normalizeUsing RPKM -o {output.bigwig} 2>{log}"
+        "bamCoverage -b {input.bam} --binSize {params.binsize} --effectiveGenomeSize {params.effectiveGenomeSize} --normalizeUsing {params.normalizeUsing} -o {output.bigwig} 2>{log}"
