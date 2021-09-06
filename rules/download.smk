@@ -41,7 +41,7 @@ rule download_TE_gene:
 
 rule prebuilt_TE_GTF:
 	output:
-		WORKING_DIR + "TE_prebuilt_index.gtf"
+		WORKING_DIR + "TE_prebuilt_index.locInd"
 	params:
 		gtfFile=config["REPEAT_LOCIND"]
 	log:

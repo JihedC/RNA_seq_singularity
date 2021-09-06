@@ -22,7 +22,7 @@ rule TElocal:
     input:
         bam		    =  	RESULT_DIR + "star/{sample}_Aligned.out.bam",
         genic_gtf	=	WORKING_DIR + "annotation.gtf",
-        TE_gtf	=	WORKING_DIR + "TE_prebuilt_index.gtf"
+        TE_gtf	    =	WORKING_DIR + "TE_prebuilt_index.locInd"
     output:
         RESULT_DIR + "TElocal/{sample}.cntTable"
     params:
