@@ -80,7 +80,7 @@ rule map_to_genome_using_STAR_sorted:
     params:
         sample_name           =  "{sample}",
         star_input_file_names =  get_star_names,
-        prefix                =  RESULT_DIR + "star/{sample}_",
+        prefix                =  RESULT_DIR + "sorted_star/{sample}_",
         maxmismatches         =  config["star"]["mismatches"],
         unmapped              =  config["star"]["unmapped"]   ,
         multimappers          =  config["star"]["multimappers"],
