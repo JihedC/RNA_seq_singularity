@@ -37,3 +37,16 @@ rule download_TE_gene:
 		RESULT_DIR + "benchmark/download_TE_gene.txt"		
 	shell:
 		"curl {params.gtfFile} | gunzip -c > {output} 2>{log}"
+
+
+rule prebuilt_TE_GTF:
+	output:
+		WORKING_DIR + "TE_prebuilt_index.gtf"
+	params:
+		gtfFile=config["REPEAT_LOCIND"]
+	log:
+		"results/log/download_TE_prebuilt_index.log"
+	benchmark:
+		RESULT_DIR + "benchmark/download_TE_prebuilt_index.txt"		
+	shell:
+		"curl {params.gtfFile} | gunzip -c > {output} 2>{log}"
