@@ -24,7 +24,7 @@ rule TElocal:
         genic_gtf	=	WORKING_DIR + "annotation.gtf",
         TE_gtf	    =	WORKING_DIR + "TE_prebuilt_index.locInd"
     output:
-        RESULT_DIR + "TElocal/{sample}.cntTable"
+        RESULT_DIR + "TElocal/{sample}.cntTable.cntTable"
     params:
         project     =   RESULT_DIR + "TElocal/{sample}.cntTable",
         stranded    =   config["TElocal"]["stranded"],
