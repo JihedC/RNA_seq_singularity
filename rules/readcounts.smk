@@ -7,13 +7,17 @@ rule htseq_count:
     output:
         RESULT_DIR + "htseq/htseq_count_TE.txt"
     params:
-        TE_gtf	=	WORKING_DIR + "TE_repeat_masker.gtf"
+        TE_gtf	=	WORKING_DIR + "TE_repeat_masker.gtf",
+        header  =   "Gene\\\t"+"\\\t".join(samples)
     log:
         RESULT_DIR + "log/htseq_count/htseq_count.log"
     message:
         "Producing TE count table with HTSEQ-count"    
     shell:
-        "htseq-count --format=bam --idattr=transcript_id {input} {params.TE_gtf} > {output}"
+        """
+        echo {params.header} > {output}
+        htseq-count --format=bam --idattr=transcript_id {input} {params.TE_gtf} >> {output}
+        """
 
 rule featurecount:
     input:

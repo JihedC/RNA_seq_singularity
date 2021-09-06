@@ -69,8 +69,8 @@ rule map_to_genome_using_STAR_sorted:
         reverse_read = WORKING_DIR + "trimmed/" + "{sample}_R2_trimmed.fq.gz",
         gtf =   WORKING_DIR + "annotation.gtf"
     output:
-        RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam",
-        RESULT_DIR + "star/{sample}_Log.final.out"
+        RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam",
+        RESULT_DIR + "sorted_star/{sample}_Log.final.out"
     message:
         "mapping {wildcards.sample} reads to genome"
     log:
@@ -105,9 +105,9 @@ rule map_to_genome_using_STAR_sorted:
 
 rule index_bam:
     input:
-        RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam"
+        RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam"
     output: 
-        RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam.bai"
+        RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam.bai"
     log:
         RESULT_DIR + "log/sort/{sample}.log"
     shell:
@@ -115,15 +115,19 @@ rule index_bam:
 
 rule bamcoverage:
     input:
-        bam     =   RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam",
-        bai     =   RESULT_DIR + "star/{sample}_Aligned.sortedByCoord.out.bam.bai"
+        bam     =   RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam",
+        bai     =   RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam.bai"
     output:
         bigwig  =   RESULT_DIR + "bigwig/{sample}_rpkm.bw"
     message:
         "Create genome coverage tracks"
     benchmark:
-        RESULT_DIR + "benchmark/bamcoverage_{sample}.benchmark.txt"        
+        RESULT_DIR + "benchmark/bamcoverage_{sample}.benchmark.txt"
+    params:
+         binsize                =   config["bamcoverage"]["binsize"],
+         normalizeUsing         =   config["bamcoverage"]["normalizeUsing"],
+         effectiveGenomeSize    =   config["bamcoverage"]["effectiveGenomeSize"]       
     log:
         RESULT_DIR + "log/bamcoverage/{sample}.log"    
     shell:
-        "bamCoverage -b {input.bam} --binSize 10 --effectiveGenomeSize 2652783500 --normalizeUsing RPKM -o {output.bigwig} 2>{log}"
+        "bamCoverage -b {input.bam} --binSize {params.binsize} --effectiveGenomeSize {params.effectiveGenomeSize} --normalizeUsing {params.normalizeUsing} -o {output.bigwig} 2>{log}"
