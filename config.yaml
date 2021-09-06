@@ -12,6 +12,7 @@ GENOME_ZIP_FASTA_URL: ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/re
 GENOME_ZIP_GTF_URL: ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M20/gencode.vM20.annotation.gtf.gz
 #ENCODE repeat_masker
 REPEAT_GTF_URL: http://labshare.cshl.edu/shares/mhammelllab/www-data/TEtranscripts/TE_GTF/GRCm38_Ensembl_rmsk_TE.gtf.gz
+REPEAT_LOCIND: http://labshare.cshl.edu/shares/mhammelllab/www-data/TElocal/prebuilt_indices/mm10_rmsk_TE.gtf.locInd.gz #others prebuilt indices can be found: http://labshare.cshl.edu/shares/mhammelllab/www-data/TElocal/prebuilt_indices/
 
 #FASTP
 
