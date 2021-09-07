@@ -126,8 +126,9 @@ rule bamcoverage:
     params:
          binsize                =   config["bamcoverage"]["binsize"],
          normalizeUsing         =   config["bamcoverage"]["normalizeUsing"],
-         effectiveGenomeSize    =   config["bamcoverage"]["effectiveGenomeSize"]       
+         effectiveGenomeSize    =   config["bamcoverage"]["effectiveGenomeSize"],
+         smoothLength           =   config["bamcoverage"]["smoothLength"]       
     log:
         RESULT_DIR + "log/bamcoverage/{sample}.log"    
     shell:
-        "bamCoverage -b {input.bam} --binSize {params.binsize} --effectiveGenomeSize {params.effectiveGenomeSize} --normalizeUsing {params.normalizeUsing} -o {output.bigwig} 2>{log}"
+        "bamCoverage -b {input.bam} --binSize {params.binsize} --effectiveGenomeSize {params.effectiveGenomeSize} --normalizeUsing {params.normalizeUsing} --smoothLength {params.smoothLength} -o {output.bigwig} 2>{log}"
