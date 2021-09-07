@@ -90,6 +90,7 @@ TElocal         = expand(RESULT_DIR + "TElocal/{sample}.cntTable.cntTable", samp
 HTSEQ           = RESULT_DIR + "htseq/htseq_count_TE.txt"
 FEATURECOUNT    = RESULT_DIR + "featureCounts/featureCounts_TE.txt"
 GLOBAL_TE       = RESULT_DIR + "Global_TE.countsPerRepetitiveRegions.csv"
+GENE_EXP        = RESULT_DIR + "featureCounts/genes/featureCounts_genes.txt"
 
 ################## RULE ALL ##################
 
@@ -101,7 +102,8 @@ rule all:
         TElocal,
         HTSEQ,
         FEATURECOUNT,
-        GLOBAL_TE
+        GLOBAL_TE,
+        GENE_EXP
 
     message : "Analysis is complete!"
     shell:"multiqc --force . --outdir ."
