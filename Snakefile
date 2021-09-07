@@ -13,6 +13,7 @@ from snakemake.utils import R
 configfile: "config.yaml"
 WORKING_DIR =   config["working_dir"]
 RESULT_DIR  =   config["result_dir"]
+annotation  =   config["annotation"]
 
 ################## Configuration file ##################
 
@@ -88,6 +89,7 @@ BIGWIG          = expand(RESULT_DIR + "bigwig/{sample}_rpkm.bw", sample = SAMPLE
 TElocal         = expand(RESULT_DIR + "TElocal/{sample}.cntTable.cntTable", sample = SAMPLES)
 HTSEQ           = RESULT_DIR + "htseq/htseq_count_TE.txt"
 FEATURECOUNT    = RESULT_DIR + "featureCounts/featureCounts_TE.txt"
+GLOBAL_TE       = RESULT_DIR + "Global_TE.countsPerRepetitiveRegions.csv"
 
 ################## RULE ALL ##################
 
@@ -98,7 +100,8 @@ rule all:
         BIGWIG,
         TElocal,
         HTSEQ,
-        FEATURECOUNT
+        FEATURECOUNT,
+        GLOBAL_TE
 
     message : "Analysis is complete!"
     shell:"multiqc --force . --outdir ."

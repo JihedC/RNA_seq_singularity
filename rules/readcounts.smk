@@ -31,4 +31,18 @@ rule featurecount:
         "Producing TE count table with featureCounts"
     threads: 10    
     shell:
-        "featureCounts -T {threads} -t exon -g transcript_id -F 'gtf' -a {input.TE_gtf} -o {output} {input.bams}" 
+        "featureCounts -T {threads} -t exon -g transcript_id -F 'gtf' -a {input.TE_gtf} -o {output} {input.bams}"
+
+rule createCountsPerRepetitiveRegions:
+	input:
+		bamFiles    =   expand(RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam", sample = SAMPLES),
+		annotation  =   annotation + "mm10.rm.bed.gz"
+	output:
+		RESULT_DIR + "Global_TE.countsPerRepetitiveRegions.csv"
+	params:
+		header="chr\\\tstart\\\tend\\\tID\\\t\\\tsize\\\tstrand\\\t"+"\\\t".join(SAMPLES)
+	shell:
+		"""
+		echo {params.header}>{output}
+		bedtools multicov -bams {input.bamFiles} -bed {input.annotation}>> {output}
+		"""
