@@ -9,7 +9,7 @@
 #/path/to/STAR --genomeDir /path/to/genome/dir/ --readFilesIn ...  [...other parameters...] --soloType ... --soloCBwhitelist ...
 
 READS="/exports/humgen/jihed/scTE/pbmc"
-INDEX="/exports/humgen/jihed/TE_Transcript/temp/genome"
+INDEX="/exports/humgen/jihed/genomes/genomepy/hg19/star"
 module purge
 module load genomics/ngs/samtools/1.11/gcc-8.3.1
 
@@ -41,8 +41,8 @@ STAR --genomeDir $INDEX \
 
 # scTE -i Aligned.sortedByCoord.out.bam -o out -x mm10.exclusive.idx --hdf5 True -CB CR -UMI UR
 
-scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample1 -x mm10.exclusive.idx --hdf5 True -CB CR -UMI UR
-scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample1 -x mm10.exclusive.idx -CB CR -UMI UR
+scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample1 -x hg38.exclusive.idx --hdf5 True -CB CR -UMI UR
+scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample1 -x hg38.exclusive.idx -CB CR -UMI UR
 
-scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample2 -x mm10.exclusive.idx --hdf5 True -CB CR -UMI UR
-scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample2 -x mm10.exclusive.idx -CB CR -UMI UR
+scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample2 -x hg38.exclusive.idx --hdf5 True -CB CR -UMI UR
+scTE -i pbmc_sample1Aligned.sortedByCoord.out.bam -o pbmc_sample2 -x hg38.exclusive.idx -CB CR -UMI UR
