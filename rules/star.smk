@@ -72,7 +72,7 @@ rule map_to_genome_using_STAR_sorted:
         RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam",
         RESULT_DIR + "sorted_star/{sample}_Log.final.out"
     message:
-        "mapping {wildcards.sample} reads to genome"
+        "mapping {wildcards.sample} reads to genome using David's parameters"
     log:
         RESULT_DIR + "log/star/{sample}.log"
     benchmark:
@@ -95,12 +95,17 @@ rule map_to_genome_using_STAR_sorted:
     threads: 10
     resources: cpus=10
     shell:
-        "STAR --runThreadN 12 --genomeDir {params.genome_index} --sjdbGTFfile {input.gtf} \
-        --sjdbOverhang {params.sjdbOverhang} --readFilesIn {params.star_input_file_names} \
-        --readFilesCommand zcat --winAnchorMultimapNmax {params.winAnchorMultimapNmax} \
-        --outFilterMultimapNmax {params.multimappers} \
-        --outReadsUnmapped {params.unmapped} \
-        --outFileNamePrefix {params.prefix} --outSAMtype {params.outSamType_sorted} "
+        "STAR --runThreadN 12 \
+        --genomeDir {params.genome_index} \
+        --sjdbGTFfile {input.gtf} \
+        --outFileNamePrefix {params.prefix} \
+        --readFilesIn {params.star_input_file_names} \
+        --readFilesCommand zcat \
+        --outSAMtype {params.outSamType_sorted} \
+        --bamRemoveDuplicatesType UniqueIdentical \
+        --outWigType bedGraph --outWigNorm RPM \
+        --quantMode GeneCounts --twopassMode Basic"
+        
 
 
 rule index_bam:
