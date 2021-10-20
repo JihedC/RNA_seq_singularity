@@ -1,0 +1,16 @@
+FROM continuumio/miniconda:4.10.3
+
+WORKDIR /home/snakemake/
+
+COPY ["environment.yaml", "./"]
+
+# mamba is a faster C++ re-implemenbtation of conda
+# name of the environment is rnaseq
+RUN conda install -c conda-forge mamba --yes \
+  && mamba env create -f environment.yaml \
+  && conda clean --all
+
+RUN echo "source activate rnaseq" > ~/.bashrc
+ENV PATH /opt/conda/envs/rnaseq/bin:$PATH
+
+ENTRYPOINT ["snakemake"]

@@ -5,6 +5,7 @@ sample: samples.tsv
 # files and directories
 working_dir: "temp/"
 result_dir: "results/"
+annotation: "annotation/"
 
 
 #Parameters for the rules
@@ -47,12 +48,14 @@ bamcoverage:
   binsize:                '10'
   normalizeUsing:         'RPKM'
   effectiveGenomeSize:    '2652783500'            #https://deeptools.readthedocs.io/en/latest/content/feature/effectiveGenomeSize.html
+  smoothLength:           '50'
 
 #TE_Transcript
 TEtranscript:
   format:                 'BAM'     #can be also SAM
   stranded:               'reverse'      # choices: "no", "forward"("Second-strand" cDNA library - e.g QIAseq stranded), "reverse" ("First-strand" cDNA library e.g Illumina Truseq)
   project:                'results/TEtranscript/TEtranscript_out' #name of the output directory
+
 
 #TE_local
 
