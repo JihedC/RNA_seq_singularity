@@ -13,6 +13,7 @@ rule star_index:
         sjdb_overhang = config["star_index"]["sjdbOverhang"],
     threads: 10
     resources: mem_mb=100000
+    singularity:'docker:/mgibio/star:latest'        
     shell:
         "mkdir -p {params.genome_dir}; " # if directory not created STAR will ask for it
         "STAR --runThreadN {threads} "
@@ -36,7 +37,8 @@ rule map_to_genome_using_STAR:
     log:
         RESULT_DIR + "log/star/{sample}.log"
     benchmark:
-        RESULT_DIR + "benchmark/star_{sample}_unsorted.benchmark.txt"        
+        RESULT_DIR + "benchmark/star_{sample}_unsorted.benchmark.txt"
+    singularity:'docker:/mgibio/star:latest'        
     params:
         sample_name           =  "{sample}",
         star_input_file_names =  get_star_names,
@@ -94,6 +96,7 @@ rule map_to_genome_using_STAR_sorted:
         winAnchorMultimapNmax =  config["star"]["winAnchorMultimapNmax"]    
     threads: 10
     resources: cpus=10
+    singularity:'docker:/mgibio/star:latest'
     shell:
         "STAR --runThreadN 12 \
         --genomeDir {params.genome_index} \
@@ -115,6 +118,7 @@ rule index_bam:
         RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam.bai"
     log:
         RESULT_DIR + "log/sort/{sample}.log"
+    singularity:'docker:/biocontainers/samtools:v1.9-4-deb_cv1'
     shell:
         "samtools index {input} 2>{log}"
 
@@ -134,6 +138,7 @@ rule bamcoverage:
          effectiveGenomeSize    =   config["bamcoverage"]["effectiveGenomeSize"],
          smoothLength           =   config["bamcoverage"]["smoothLength"]       
     log:
-        RESULT_DIR + "log/bamcoverage/{sample}.log"    
+        RESULT_DIR + "log/bamcoverage/{sample}.log"
+    singularity:'docker://stjudecloud/deeptools:branch-chipseq-1.0.2'     
     shell:
         "bamCoverage -b {input.bam} --binSize {params.binsize} --effectiveGenomeSize {params.effectiveGenomeSize} --normalizeUsing {params.normalizeUsing} --smoothLength {params.smoothLength} -o {output.bigwig} 2>{log}"

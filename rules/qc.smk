@@ -1,6 +1,4 @@
 ################## Rules used for QC ##################
-
-
 rule fastp:
     input:
         get_fastq
@@ -17,6 +15,7 @@ rule fastp:
         sampleName = "{sample}",
         in_and_out_files =  get_trim_names,
         qualified_quality_phred = config["fastp"]["qualified_quality_phred"]
+    singularity:'docker://biocontainers/fastp:v0.20.1_cv1'    
     resources: cpus=10
     shell:
         "touch {output.fq2};\
@@ -35,6 +34,7 @@ rule multiqc:
         fastp_directory = WORKING_DIR + "fastp/",
         outdir = RESULT_DIR
     message: "Summarising fastp reports with multiqc"
+    singularity:'docker://staphb/multiqc:1.8'
     shell:
         "multiqc --force "
         "--outdir {params.outdir} "
