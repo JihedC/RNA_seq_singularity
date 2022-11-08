@@ -14,7 +14,7 @@ rule TEtranscripts:
     log:
         RESULT_DIR + "log/TEtranscript/tetranscript.log",
     singularity:
-        "docker:/mhammelllab/tetranscripts:latest"
+        "docker://mhammelllab/tetranscripts:latest"
     params:
         format=config["TEtranscript"]["format"],
         stranded=config["TEtranscript"]["stranded"],

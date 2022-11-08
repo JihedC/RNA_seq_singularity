@@ -28,7 +28,7 @@ rule star_index:
     resources:
         mem_mb=100000,
     singularity:
-        "docker:/mgibio/star:latest"
+        "docker://mgibio/star:latest"
     shell:
         "mkdir -p {params.genome_dir}; "
         "STAR --runThreadN {threads} "
@@ -55,7 +55,7 @@ rule map_to_genome_using_STAR:
     benchmark:
         RESULT_DIR + "benchmark/star_{sample}_unsorted.benchmark.txt"
     singularity:
-        "docker:/mgibio/star:latest"
+        "docker://mgibio/star:latest"
     params:
         sample_name="{sample}",
         star_input_file_names=get_star_names,
@@ -117,7 +117,7 @@ rule map_to_genome_using_STAR_sorted:
     resources:
         cpus=10,
     singularity:
-        "docker:/mgibio/star:latest"
+        "docker://mgibio/star:latest"
     shell:
         "STAR --runThreadN 12 \
         --genomeDir {params.genome_index} \
@@ -139,7 +139,7 @@ rule index_bam:
     log:
         RESULT_DIR + "log/sort/{sample}.log",
     singularity:
-        "docker:/biocontainers/samtools:v1.9-4-deb_cv1"
+        "docker://biocontainers/samtools:v1.9-4-deb_cv1"
     shell:
         "samtools index {input} 2>{log}"
 

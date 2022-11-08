@@ -13,7 +13,7 @@ rule mapping:
 		32
 	log:
 		"results/log/star/{samples}.log"
-    singularity:'docker:/mgibio/star:latest'
+    singularity:'docker://mgibio/star:latest'
 	conda:
 		"../envs/star.yaml"
 	output:
@@ -32,7 +32,7 @@ rule sort_bam:
 	output: "results/mapped/{samples}/{samples}.sorted.bam"
 	log:
 		"results/log/sort/{samples}.log"
-    singularity:'docker:/biocontainers/samtools:v1.9-4-deb_cv1'
+    singularity:'docker://biocontainers/samtools:v1.9-4-deb_cv1'
 	conda:
 		"../envs/samtools.yaml"
 	shell:
@@ -67,7 +67,7 @@ rule deduplicate:
 		
 	conda:
 		"../envs/picard.yaml"
-	singularity:'docker:/biocontainers/picard:v1.139_cv3'
+	singularity:'docker://biocontainers/picard:v1.139_cv3'
 	shell:
 		"picard MarkDuplicates I={input.bam} O={output.dedup} M={output.stats} REMOVE_DUPLICATES=true"
 #picard MarkDuplicates I=results/mapped/WT1/WT1Aligned.out.bam O=results/mapped/WT1/WT1Aligned.out.bam METRICS_FILE=test.picard.txt REMOVE_DUPLICATES=true
@@ -85,7 +85,7 @@ rule htseq_count:
 			gtf_repeat	=	"GRCm38_GENCODE_rmsk_TE.gtf"
 		log:
 			"results/log/htseqcount/results/htseqcount_log.txt"
-		singularity:'docker:/biocontainers/htseq:v0.11.2-1-deb-py3_cv1'
+		singularity:'docker://biocontainers/htseq:v0.11.2-1-deb-py3_cv1'
 		shell:
 			"htseq-count --format=bam --idattr=transcript_id{input} {params.gtf_repeat} > {output}"
 
