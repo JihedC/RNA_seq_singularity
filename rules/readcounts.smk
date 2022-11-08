@@ -1,4 +1,5 @@
-################## Rules used for read counting ##################
+################ Rules used for read counting ##################
+
 rule htseq_count:
     input:
         lambda wildcards: expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample = SAMPLES)
@@ -51,16 +52,16 @@ rule featurecount_genes:
         "featureCounts -T {threads} -F 'gtf' -a {input.gene_gtf} -o {output} {input.bams}"       
 
 rule createCountsPerRepetitiveRegions:
-	input:
-		bamFiles    =   expand(RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam", sample = SAMPLES),
-		annotation  =   annotation + "mm10.rm.bed.gz"
-	output:
-		RESULT_DIR + "Global_TE.countsPerRepetitiveRegions.csv"
-	params:
-		header="chr\\\tstart\\\tend\\\tID\\\t\\\tsize\\\tstrand\\\t"+"\\\t".join(SAMPLES)
+    input:
+        bamFiles    =   expand(RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam", sample = SAMPLES),
+        annotation  =   annotation + "mm10.rm.bed.gz"
+    output:
+        RESULT_DIR + "Global_TE.countsPerRepetitiveRegions.csv"
+    params:
+        header="chr\\\tstart\\\tend\\\tID\\\t\\\tsize\\\tstrand\\\t"+"\\\t".join(SAMPLES)
     singularity:'docker:/biocontainers/bedtools:v2.27.1dfsg-4-deb_cv1'
-	shell:
-		"""
-		echo {params.header}>{output}
-		bedtools multicov -bams {input.bamFiles} -bed {input.annotation}>> {output}
-		"""
+    shell:
+        """
+        echo {params.header}>{output}
+        bedtools multicov -bams {input.bamFiles} -bed {input.annotation}>> {output}
+        """
