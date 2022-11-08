@@ -15,7 +15,7 @@ rule fastp:
         sampleName = "{sample}",
         in_and_out_files =  get_trim_names,
         qualified_quality_phred = config["fastp"]["qualified_quality_phred"]
-    singularity:'docker://biocontainers/fastp:v0.20.1_cv1'    
+    singularity:'docker://biocontainers/fastp:v0.20.1_cv1'
     resources: cpus=10
     shell:
         "touch {output.fq2};\

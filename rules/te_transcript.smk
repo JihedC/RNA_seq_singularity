@@ -13,7 +13,7 @@ rule mapping:
 		32
 	log:
 		"results/log/star/{samples}.log"
-    singularity:'docker:/mgibio/star:latest'        
+    singularity:'docker:/mgibio/star:latest'
 	conda:
 		"../envs/star.yaml"
 	output:
