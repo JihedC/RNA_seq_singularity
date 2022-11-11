@@ -145,12 +145,12 @@ GENE_EXP = RESULT_DIR + "featureCounts/genes/featureCounts_genes.txt"
 rule all:
     input:
         STAR,
-        TEtranscripts,
+        #TEtranscripts,
         BIGWIG,
-        TElocal,
+        #TElocal,
         HTSEQ,
         FEATURECOUNT,
-        GLOBAL_TE,
+        #GLOBAL_TE,
         GENE_EXP,
     message:
         "Analysis is complete!"
