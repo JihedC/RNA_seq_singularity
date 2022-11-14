@@ -15,7 +15,6 @@ rule htseq_count:
     singularity:'docker://biocontainers/htseq:v0.11.2-1-deb-py3_cv1'
     shell:
         """
-        echo {params.header} > {output}
         htseq-count --format=bam --idattr=transcript_id {input} {params.TE_gtf} >> {output}
         """
 
@@ -50,6 +49,25 @@ rule featurecount_genes:
     threads: 10    
     shell:
         "featureCounts -T {threads} -F 'gtf' -a {input.gene_gtf} -o {output} {input.bams}"       
+
+rule htseq_genes:
+    input:
+        bams = expand(RESULT_DIR + "sorted_star/{sample}_Aligned.sortedByCoord.out.bam", sample = SAMPLES),    
+    output:
+        RESULT_DIR + "htseq/genes/htseq_genes.txt"
+    params:
+        header  =   "Gene\\\t"+"\\\t".join(samples),
+        gene_gtf	=	WORKING_DIR + "annotation.gtf"
+    log:
+        RESULT_DIR + "log/htseq/htseq_genes.log"
+    message:
+        "Producing Genes count table with Htseq"
+    singularity:'docker://biocontainers/htseq:v0.11.2-1-deb-py3_cv1'
+    threads: 10    
+    shell:
+        """
+        htseq-count --format=bam --idattr=transcript_id {input.bams} {params.gene_gtf} >> {output}
+        """  
 
 rule createCountsPerRepetitiveRegions:
     input:

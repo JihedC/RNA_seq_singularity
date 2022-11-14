@@ -130,14 +130,15 @@ wildcard_constraints:
 
 ################## DESIRED OUTPUT ##################
 
-STAR = expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample=SAMPLES)
-TEtranscripts = RESULT_DIR + "TEtranscript/TEtranscript_out.cntTable"
-BIGWIG = expand(RESULT_DIR + "bigwig/{sample}_rpkm.bw", sample=SAMPLES)
-TElocal = expand(RESULT_DIR + "TElocal/{sample}.cntTable.cntTable", sample=SAMPLES)
-HTSEQ = RESULT_DIR + "htseq/htseq_count_TE.txt"
-FEATURECOUNT = RESULT_DIR + "featureCounts/featureCounts_TE.txt"
-GLOBAL_TE = RESULT_DIR + "Global_TE.countsPerRepetitiveRegions.csv"
-GENE_EXP = RESULT_DIR + "featureCounts/genes/featureCounts_genes.txt"
+STAR            = expand(RESULT_DIR + "star/{sample}_Aligned.out.bam", sample=SAMPLES)
+TEtranscripts   = RESULT_DIR + "TEtranscript/TEtranscript_out.cntTable"
+BIGWIG          = expand(RESULT_DIR + "bigwig/{sample}_rpkm.bw", sample=SAMPLES)
+TElocal         = expand(RESULT_DIR + "TElocal/{sample}.cntTable.cntTable", sample=SAMPLES)
+HTSEQ           = RESULT_DIR + "htseq/htseq_count_TE.txt"
+FEATURECOUNT    = RESULT_DIR + "featureCounts/featureCounts_TE.txt"
+GLOBAL_TE       = RESULT_DIR + "Global_TE.countsPerRepetitiveRegions.csv"
+GENE_EXP        = RESULT_DIR + "featureCounts/genes/featureCounts_genes.txt"
+HTSEQ_GENE      = RESULT_DIR + "htseq/genes/htseq_genes.txt"
 
 ################## RULE ALL ##################
 
