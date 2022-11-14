@@ -40,7 +40,7 @@ rule download_TE_gene:
         """
         wget http://labshare.cshl.edu/shares/mhammelllab/www-data/TEtranscripts/TE_GTF/GRCm38_Ensembl_rmsk_TE.gtf.gz
         gunzip GRCm38_Ensembl_rmsk_TE.gtf.gz
-        mv GRCm38_Ensembl_rmsk_TE.gtf temp/
+        mv GRCm38_Ensembl_rmsk_TE.gtf temp/TE_repeat_masker.gtf
         """
 
 
