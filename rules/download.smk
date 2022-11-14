@@ -37,7 +37,11 @@ rule download_TE_gene:
     benchmark:
         RESULT_DIR + "benchmark/download_TE_gene.txt"
     shell:
-        "wget {params.gtfFile} | gunzip -c > {output} 2>{log}"
+        """
+        wget http://labshare.cshl.edu/shares/mhammelllab/www-data/TEtranscripts/TE_GTF/GRCm38_Ensembl_rmsk_TE.gtf.gz
+        gunzip GRCm38_Ensembl_rmsk_TE.gtf.gz
+        mv GRCm38_Ensembl_rmsk_TE.gtf temp/
+        """
 
 
 rule prebuilt_TE_GTF:
