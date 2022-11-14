@@ -153,6 +153,7 @@ rule all:
         FEATURECOUNT,
         #GLOBAL_TE,
         GENE_EXP,
+        HTSEQ_GENE
     message:
         "Analysis is complete!"
     shell:
