@@ -149,8 +149,8 @@ rule all:
         #TEtranscripts,
         BIGWIG,
         #TElocal,
-        HTSEQ,
-        FEATURECOUNT,
+        #HTSEQ,
+        #FEATURECOUNT,
         #GLOBAL_TE,
         GENE_EXP,
         HTSEQ_GENE
