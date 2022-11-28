@@ -48,7 +48,7 @@ rule featurecount_genes:
     singularity:'docker://dsaha0295/featurecounts:latest'
     threads: 10    
     shell:
-        "featureCounts -T {threads} -F 'gtf' -a {input.gene_gtf} -o {output} {input.bams}"       
+        "featureCounts -T {threads} -g gene_id -F 'gtf' -a {input.gene_gtf}  -o {output} {input.bams}"
 
 rule htseq_genes:
     input:
@@ -66,7 +66,7 @@ rule htseq_genes:
     threads: 10    
     shell:
         """
-        htseq-count --format=bam --idattr=transcript_id {input.bams} {params.gene_gtf} >> {output}
+        htseq-count --format=bam --idattr=gene_id {input.bams} {params.gene_gtf} >> {output}
         """  
 
 rule createCountsPerRepetitiveRegions:
