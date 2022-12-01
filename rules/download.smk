@@ -11,7 +11,7 @@ rule download_genome:
     benchmark:
         RESULT_DIR + "benchmark/download_genome.txt"
     shell:
-        "wget {params.fasta} | gunzip -c > {output} 2>{log}"
+        "curl {params.fasta} | gunzip -c > {output} 2>{log}"
 
 
 rule download_gtf_gene:
@@ -24,7 +24,7 @@ rule download_gtf_gene:
     benchmark:
         RESULT_DIR + "benchmark/download_gtf_gene.txt"
     shell:
-        "wget {params.gtfFile} | gunzip -c > {output} 2>{log}"
+        "curl {params.gtfFile} | gunzip -c > {output} 2>{log}"
 
 
 rule download_TE_gene:
@@ -54,4 +54,4 @@ rule prebuilt_TE_GTF:
     benchmark:
         RESULT_DIR + "benchmark/download_TE_prebuilt_index.txt"
     shell:
-        "wget {params.gtfFile} | gunzip -c > {output} 2>{log}"
+        "curl {params.gtfFile} | gunzip -c > {output} 2>{log}"

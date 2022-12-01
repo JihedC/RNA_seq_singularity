@@ -152,7 +152,7 @@ The main output are :
 
 Below is an overview of the jobs run for each sample through the pipeline:
 
-![](docs/dag.png)
+![](docs/rulegraph.png)
 
 # Unlock Snakemake 
 
