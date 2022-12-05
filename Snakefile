@@ -156,6 +156,7 @@ rule all:
         HTSEQ_GENE
     message:
         "Analysis is complete!"
+    singularity:'docker://ewels/multiqc:v1.13'
     shell:
         "multiqc --force . --outdir ."
 
